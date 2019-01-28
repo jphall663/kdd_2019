@@ -248,7 +248,7 @@ Figure \ref{fig:dt_surrogate} is a directed graph representation of $h_{\text{tr
 
 \begin{itemize}
 	
-	\item A shallow-depth $h_{\text{tree}}$ displays a global, low-fidelity (e.g. approximate), high-interpretability flow chart of important features and interactions in $g$. Because there are few theoretical guarantees that $h_{\text{tree}}$ truly represents $g$, always use error measures to assess the trustworthiness of $h_{\text{tree}}$, e.g. RMSE, MAPE, $R^2$.
+	\item A shallow-depth $h_{\text{tree}}$ displays a global, low-fidelity (i.e. approximate), high-interpretability flow chart of important features and interactions in $g$. Because there are few theoretical guarantees that $h_{\text{tree}}$ truly represents $g$, always use error measures to assess the trustworthiness of $h_{\text{tree}}$, e.g. RMSE, MAPE, $R^2$.
 	
 	\item Prescribed methods for training $h_{\text{tree}}$ do exist \cite{dt_surrogate1} \cite{dt_surrogate2}. In practice, straightforward cross-validation approaches are often sufficient. Moreover, comparing cross-validated training error to traditional training error can give an indication of the stability of the single decision tree $h_{\text{tree}}$.
 	
