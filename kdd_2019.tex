@@ -380,7 +380,7 @@ Generally the LIMEs in Section \ref{sec:lime} would be considered to be sparse o
 \section{Tree SHAP} \label{sec:shap}
 %-------------------------------------------------------------------------------
 
-Shapley explanations, including tree SHAP (SHapley Additive exPlanations) and even certain implementations of LIME, are a class of additive, consistent local feature contribution measures with long-standing theoretical support \cite{shapley}. Shapley explanations are the only possible locally accurate and globally consistent feature contribution values, meaning that Shapley explanation values for input features always sum to $g(\mathbf{x})$ and that Shapley explanation values can never decrease for some $x_j$ when $g$ is changed such that $x_j$ truly makes a stronger contribution to $g(\mathbf{x})$ \cite{shapley}. 
+Shapley explanations, including tree SHAP (SHapley Additive exPlanations) and even certain implementations of LIME, are a class of additive, locally accurate feature contribution measures with long-standing theoretical support \cite{shapley}. Shapley explanations are the only possible locally accurate and globally consistent feature contribution values, meaning that Shapley explanation values for input features always sum to $g(\mathbf{x})$ and that Shapley explanation values can never decrease for some $x_j$ when $g$ is changed such that $x_j$ truly makes a stronger contribution to $g(\mathbf{x})$ \cite{shapley}. 
 
 \subsection{Description}
 
