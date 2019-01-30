@@ -71,7 +71,7 @@
 %
 % The abstract is a short summary of the work to be presented in the article.
 \begin{abstract}
-This text discusses several explanatory methods that go beyond the error measurements and plots 	traditionally used to assess machine learning models. Some of the methods are tools of the trade while others are rigorously derived and backed by long-standing theory. The methods, decision tree surrogate models, individual conditional expectation (ICE) plots, local interpretable model-agnostic explanations (LIME), partial dependence plots, and Shapley explanations, vary in terms of scope, fidelity, and suitable application domain.  Along with descriptions of these methods, this text presents real-world usage recommendations supported by a use case and public, in-depth software examples for reproducibility.
+This text discusses several explanatory methods that go beyond the error measurements and plots 	traditionally used to assess machine learning models. Some of the methods are accepted tools of the trade while others are rigorously derived and backed by long-standing theory. The methods, decision tree surrogate models, individual conditional expectation (ICE) plots, local interpretable model-agnostic explanations (LIME), partial dependence plots, and Shapley explanations, vary in terms of scope, fidelity, and suitable application domain.  Along with descriptions of these methods, this text presents real-world usage recommendations supported by a use case and public, in-depth software examples for reproducibility.
 \end{abstract}
 
 %
@@ -167,13 +167,13 @@ The primary discussion of this text will focus on augmenting popular machine lea
 \section{Notation} \label{sec:notation}
 %-------------------------------------------------------------------------------
 
-To facilitate technical descriptions of explanatory techniques, notation for input and output spaces, datasets, and models is defined.
+To facilitate descriptions of explanatory techniques, notation for input and output spaces, datasets, and models is defined.
 
 \subsection{Spaces} 
  
 	\begin{itemize}
 		\item Input features come from the set $\mathcal{X}$ contained in a \textit{P}-dimensional input space, $\mathcal{X} \subset \mathbb{R}^P$.  An arbitrary, potentially unobserved, or future instance of $\mathcal{X}$ is denoted $\mathbf{x}$, $\mathbf{x} \in \mathcal{X}$.
-		\item Known labels corresponding to instances of $\mathcal{X}$ come from the set $\mathcal{Y}$.
+		\item Labels corresponding to instances of $\mathcal{X}$ come from the set $\mathcal{Y}$.
 		\item Learned output responses come from the set $\mathcal{\hat{Y}}$. % For regression models, the set $\mathcal{\hat{Y}}_r$ is also contained in a $C$-dimensional output space, $\mathcal{\hat{Y}}_r \subset \mathbb{R}^{C_r}$. For classification models, the set $\mathcal{\hat{Y}}_c$ typically contains a column vector for each unique class in $\mathcal{Y}$. Hence, $\mathcal{\hat{Y}}_c$ is contained in a $C'$-dimensional output space,  $\mathcal{\hat{Y}}_c \subset \mathbb{R}^{C'_c}$.
 	\end{itemize}	
 	
@@ -221,7 +221,7 @@ Decision trees can be represented as directed graphs where the relative position
 	\end{center}
 \end{figure}
 
-Figures \ref{fig:global_shapley} and \ref{fig:dt_surrogate} use simulated data to empirically demonstrate the desired relationships between input feature importance and interactions in the input space $\mathbf{X}$, the label space $f(\mathbf{X}) = \mathbf{Y}$, a GBM model to be explained $g_{\text{GBM}}$, and a decision tree surrogate $h_{\text{tree}}$. Data with a known signal-generating function depending on four numeric input features with interactions and with eight noise features is simulated such that: 
+Figures \ref{fig:global_shapley} and \ref{fig:dt_surrogate} use simulated data to empirically demonstrate the desired relationships between input feature importance and interactions in the input space $\mathbf{X}$, a GBM model to be explained $g_{\text{GBM}}(\mathbf{X})$, and a decision tree surrogate $h_{\text{tree}}(\mathbf{X})$. Data with a known signal-generating function depending on four numeric input features with interactions and with eight noise features is simulated such that: 
 
 \begin{equation}
 \label{eq:f}
@@ -285,9 +285,9 @@ As in Section \ref{sec:surrogate_dt}, simulated data is used to highlight desira
 
 \item As monotonicity is often a desired trait for interpretable models, partial dependence and ICE plots can be used to verify the monotonicity of $g$ on average and across percentiles of $g(\mathbf{X})$ w.r.t. some input feature $X_j$.
 
-\item Partial dependence can be misleading in the presence of strong correlation or interactions. Plotting partial dependence with ICE provides a direct visual indication as to whether the displayed partial dependence is credibly representative of individual predictions.
+\item Partial dependence can be misleading in the presence of strong correlation or interactions. Plotting partial dependence with ICE provides a direct visual indication as to whether the displayed partial dependence is credibly representative of individual predictions \cite{ice_plots}.
 
-\item Comparing partial dependence and ICE plots with a histogram for the input feature of interest can give a basic qualitative measure of epistemic uncertainty by enabling visual discovery of $g(\mathbf{x})$ values that are based on only small amounts of training data.
+\item Comparing partial dependence and ICE plots with a histogram for the $X_j$ of interest can give a basic qualitative measure of epistemic uncertainty by enabling visual discovery of $g(\mathbf{x})$ values that are based on only small amounts of training data.
 
 \end{itemize}
 
@@ -316,7 +316,7 @@ Ribeiro et al. specifies LIME for some observation $\mathbf{x} \in \mathcal{X}$ 
 \end{aligned}
 \end{equation}
 
-\noindent where $\mathbf{X}'$ is sampled from $\mathcal{X}$, $\pi_{\mathbf{X}}$ weighs $\mathbf{X}'$ samples by their Euclidean similarity to $\mathbf{x}$ to enforce locality, local feature contributions are estimated as the product of $h_{\text{GLM}}$ coefficients and their associated observed values $\beta_j x_j$, and $\Omega(h)$ is defined as a LASSO, or L1, penalty on $h_{\text{GLM}}$ coefficients inducing sparsity in $h_{GLM}$. 		
+\noindent where $\mathbf{X}'$ is sampled from $\mathcal{X}$, $\pi_{\mathbf{X}}$ weighs $\mathbf{X}'$ samples by their Euclidean similarity to $\mathbf{x}$ to enforce locality, local feature contributions are estimated as the product of $h_{\text{GLM}}$ coefficients and their associated data values $\beta_j x_j$, and $\Omega(h)$ is defined as a LASSO, or L1, penalty on $h_{\text{GLM}}$ coefficients inducing sparsity in $h_{GLM}$. 		
 
 Figure \ref{fig:lime} displays estimated local feature contribution values for the same $g_{\text{GBM}}$ and simulated $\mathbf{X}$ with known signal-generating function $f$ used in previous sections. To increase the nonlinear capacity of the three $h_{GLM}$ models, information from the Shapley summary plot in Figure \ref{fig:global_shapley} is used to select inputs to discretize before training each $h_{GLM}$: $X_{\text{num}1}, X_{\text{num}4}, X_{\text{num}8}$ and $X_{\text{num}9}$. Table \ref{tab:lime} contains prediction and fit information for $g_{\text{GBM}}$ and $h_{\text{GLM}}$. This is critical information for analyzing LIMEs.
 
@@ -409,7 +409,7 @@ Shapley values can be estimated in different ways. Tree SHAP is a specific imple
 \begin{figure*}[htb]
 	\begin{center}
 		\includegraphics[scale=0.55]{img/figure_6.png}
-		\caption{Complete, locally accurate feature contributions found using tree SHAP at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ and for known signal generating function $f(\mathbf{X}) = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$.}
+		\caption{Complete, locally accurate feature contributions found using tree SHAP at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ and for known signal generating function $f(\mathbf{X}) = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ in a validation dataset.}
 		\label{fig:shap}
 	\end{center}
 \end{figure*}
@@ -444,13 +444,15 @@ The following recommendations apply to several or all of the described explanato
 	
 	\item Monotonicity is often a desirable characteristic in interpretable models. (Of course it should not be enforced when a modeled relationship is known to be non-monotonic.) White-box, monotonically constrained \href{https://github.com/dmlc/xgboost}{XGBoost} models along with the explanatory techniques described in this text are a direct and open source way to train and explain an interpretable machine learning model. A monotonically constrained XGBoost GBM is trained and explained in Section \ref{sec:use_case}.\\
 	
-	\item Several explanatory techniques are usually required to create good explanations for any given complex model. Users should apply a combination global and local and low- and high-fidelity explanatory techniques to a machine learning model and seek consistent results across multiple explanatory techniques. Simpler low-fidelity or sparse explanations can be used to understand more accurate, and sometimes more sophisticated, high-fidelity explanations. \\ 
+	\item Several explanatory techniques are usually required to create good explanations for any given complex model. Users should apply a combination global and local and low- and high-fidelity explanatory techniques to a machine learning model and seek consistent results across multiple explanatory techniques. \\
+	
+	\item Simpler low-fidelity or sparse explanations can be used to understand more accurate, and sometimes more sophisticated, high-fidelity explanations. \\ 
 
 	\item Methods relying on surrogate models or generated data are sometimes unpalatable to users. Users sometimes \textit{need} to understand \textit{their} model on \textit{their} data.\\
 	
 	\item Surrogate models can provide low-fidelity explanations for an entire machine learning pipeline in the original feature space if $g$ is defined to include feature extraction or feature engineering steps.\\
 	
-	\item Conceptually, both understanding and trust are crucial to interpretability. The discussed explanatory techniques should engender a greater understanding of model mechanisms and predictions. When appropriate conduct sensitivity, residual, and disparate impact analysis on your trained machine learning model to foster greater trust in its behavior.\\
+	\item The discussed explanatory techniques should engender a sense of understanding and trust in model mechanisms and predictions. Always consider conducting sensitivity, residual, and disparate impact analysis on your trained machine learning model to foster even greater understanding and trust in its behavior.\\
 	
 	\item Consider production deployment of explanatory methods carefully. Currently, the deployment of some open source software packages is not straightforward, especially for the generation of explanations on new data in real-time.\\
 	
@@ -471,7 +473,7 @@ Some of the discussed explanatory techniques and recommendations will now be app
 
 \noindent$g_{\text{mono}}$ is globally explainable with aggregated local Shapley values, decision tree surrogate models $h_{\text{tree}}$, and partial dependence and ICE plots. Additionally each prediction made by $g_{\text{mono}}$ can be explained using local Shapley explanations. 
 
-Thirty percent of the credit card dataset observations are randomly partitioned into a labeled validation set and Pearson correlation between $g_{\text{mono}}$ inputs and the target, $X_{\text{default payment next month}}$, are calculated and stored. All features except for the target and the observation identifier, $X_{\text{ID}}$, are used as $g_{\text{mono}}$ inputs. The signs of the stored Pearson correlations are used to define the direction monotonicity constraints w.r.t. each input feature. (Features with small magnitude correlations or known non-monotonic behavior could also be left unconstrained.) Additional non-default hyperparameter settings used to train $g_{\text{mono}}$ are presented in Table \ref{tab:mono_gbm}. A maximum of 1000 iterations were used to train $g_{\text{mono}}$, with early stopping triggered after 50 iterations without validation AUC improvement. This configuration led to a final validation AUC of 0.781 after only 100 iterations. 
+Thirty percent of the credit card dataset observations are randomly partitioned into a labeled validation set and Pearson correlation between $g_{\text{mono}}$ inputs and the target, $X_{\text{default payment next month}}$, are calculated and stored. All features except for the target and the observation identifier, $X_{\text{ID}}$, are used as $g_{\text{mono}}$ inputs. The signs of the stored Pearson correlations are used to define the direction of the monotonicity constraints w.r.t. each input feature. (Features with small magnitude correlations or known non-monotonic behavior could also be left unconstrained.) Additional non-default hyperparameter settings used to train $g_{\text{mono}}$ are presented in Table \ref{tab:mono_gbm}. A maximum of 1000 iterations were used to train $g_{\text{mono}}$, with early stopping triggered after 50 iterations without validation AUC improvement. This configuration led to a final validation AUC of 0.781 after only 100 iterations. 
 
 \begin{table}[ht]
 	\centering
@@ -521,7 +523,7 @@ Partial dependence and ICE for $g_{\text{mono}}$ and the important input feature
 	\end{center}
 \end{figure}
 
-To continue explaining $g_{\text{mono}}$, a simple depth-three $h_{\text{tree}}$ model is trained to represent  $g_{\text{mono}}(\mathbf{X})$ in the validation set. $h_{\text{tree}}$ is displayed in Figure \ref{fig:cc_dt_surrogate}. $h_{\text{tree}}$ has a mean $R^2$ across three random folds in the validation set of 0.86 with a standard deviation of 0.0011 and a mean RMSE across the same folds of 0.08 with a standard deviation of 0.0003, indicating $h_{\text{tree}}$ is likely accurate and stable enough to be a helpful explanatory tool. The global importance of $X_{\text{PAY\_0}}$  and the increase in $g_{\text{mono}}(\mathbf{x})$ associated with $X_{\text{PAY\_0}} = 2$ is reflected in the simple $h_{\text{tree}}$ model, along with several potentially important interactions between input features. For instance the lowest predicted probabilities from $h_{\text{tree}}$ occur when a customer's  most recent repayment status, $X_{\text{PAY\_0}}$, is less than 0.5 and their second most recent payment amount, $X_{\text{PAY\_AMT2}}$, is greater than or equal to NT\$ 4747.5. The highest predicted probabilities from $h_{\text{tree}}$ occur when $X_{\text{PAY\_0}}$ $\geq$ $1.5$, a customers fifth most recent repayment status, $X_{\text{PAY\_5}}$, is 1 or more months late, and when a customer's fourth most recent bill amount, $X_{\text{BILL\_AMT4}}$ is less than NT\$ 17399.5. In this simple depth-three $h_{\text{tree}}$ model, it appears that an interaction between $X_{\text{PAY\_0}}$ and $X_{\text{PAY\_AMT2}}$ may be leading to the very low probability of default predictions displayed in Figure \ref{fig:cc_pdp_ice}, while interactions between $X_{\text{PAY\_0}}$, $X_{\text{PAY\_5}}$, and $X_{\text{BILL\_AMT4}}$ are potentially associated with the highest predicted probabilities. A more complex and accurate depth-five $h_{\text{tree}}$ model is available in the supplemental materials described in Section \ref{sec:software} and it presents greater detail regarding the interactions and decision paths that could lead to the modeled behavior for the lowest and highest probability of default customers. 
+To continue explaining $g_{\text{mono}}$, a simple depth-three $h_{\text{tree}}$ model is trained to represent  $g_{\text{mono}}(\mathbf{X})$ in the validation set. $h_{\text{tree}}$ is displayed in Figure \ref{fig:cc_dt_surrogate}. $h_{\text{tree}}$ has a mean $R^2$ across three random folds in the validation set of 0.86 with a standard deviation of 0.0011 and a mean RMSE across the same folds of 0.08 with a standard deviation of 0.0003, indicating $h_{\text{tree}}$ is likely accurate and stable enough to be a helpful explanatory tool. The global importance of $X_{\text{PAY\_0}}$  and the increase in $g_{\text{mono}}(\mathbf{x})$ associated with $X_{\text{PAY\_0}} = 2$ is reflected in the simple $h_{\text{tree}}$ model, along with several potentially important interactions between input features. For instance the lowest predicted probabilities from $h_{\text{tree}}$ occur when a customer's  most recent repayment status, $X_{\text{PAY\_0}}$, is less than 0.5 and their second most recent payment amount, $X_{\text{PAY\_AMT2}}$, is greater than or equal to NT\$ 4747.5. The highest predicted probabilities from $h_{\text{tree}}$ occur when $X_{\text{PAY\_0}} \geq 1.5$, a customers fifth most recent repayment status, $X_{\text{PAY\_5}}$, is 1 or more months late, and when a customer's fourth most recent bill amount, $X_{\text{BILL\_AMT4}}$, is less than NT\$ 17399.5. In this simple depth-three $h_{\text{tree}}$ model, it appears that an interaction between $X_{\text{PAY\_0}}$ and $X_{\text{PAY\_AMT2}}$ may be leading to the very low probability of default predictions displayed in Figure \ref{fig:cc_pdp_ice}, while interactions between $X_{\text{PAY\_0}}$, $X_{\text{PAY\_5}}$, and $X_{\text{BILL\_AMT4}}$ are potentially associated with the highest predicted probabilities. A more complex and accurate depth-five $h_{\text{tree}}$ model is available in the supplemental materials described in Section \ref{sec:software} and it presents greater detail regarding the interactions and decision paths that could lead to the modeled behavior for the lowest and highest probability of default customers. 
  
 \begin{figure*}[htb]
 	\begin{center}
