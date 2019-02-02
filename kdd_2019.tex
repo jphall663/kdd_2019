@@ -45,6 +45,17 @@
 % the next command will enable that style.
 %\citestyle{acmauthoryear}
 
+%two part definition
+\newcommand{\twopartdef}[4]
+{
+	\left\{
+		\begin{array}{ll}
+			#1 & \mbox{if } #2 \\
+			#3 & \mbox{if } #4
+		\end{array}
+	\right.
+}
+
 %
 % end of the preamble, start of the body of the document source.
 \begin{document}
@@ -221,11 +232,11 @@ Decision trees can be represented as directed graphs where the relative position
 	\end{center}
 \end{figure}
 
-Figures \ref{fig:global_shapley} and \ref{fig:dt_surrogate} use simulated data to empirically demonstrate the desired relationships between input feature importance and interactions in the input space $\mathbf{X}$, a GBM model to be explained $g_{\text{GBM}}(\mathbf{X})$, and a decision tree surrogate $h_{\text{tree}}(\mathbf{X})$. Data with a known signal-generating function depending on four numeric input features with interactions and with eight noise features is simulated such that: 
+Figures \ref{fig:global_shapley} and \ref{fig:dt_surrogate} use simulated data to empirically demonstrate the desired relationships between input feature importance and interactions in the input space $\mathbf{X}$, a  GBM binary classifier to be explained $g_{\text{GBM}}(\mathbf{X})$, and a decision tree surrogate $h_{\text{tree}}(\mathbf{X})$. Data with a known signal-generating function depending on four numeric input features with interactions and with eight noise features is simulated such that: 
 
 \begin{equation}
 \label{eq:f}
-f(\mathbf{X}) = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e
+f(\mathbf{X}) = \twopartdef {1} {X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e \geq 0.42} {0} {X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e < 0.42}
 \end{equation}
 
 \noindent where $e$ signifies the injection of random noise in the form of label switching for roughly 15\% of the training and validation observations. 
@@ -473,7 +484,7 @@ Some of the discussed explanatory techniques and recommendations will now be app
 
 \noindent$g_{\text{mono}}$ is globally explainable with aggregated local Shapley values, decision tree surrogate models $h_{\text{tree}}$, and partial dependence and ICE plots. Additionally each prediction made by $g_{\text{mono}}$ can be explained using local Shapley explanations. 
 
-Thirty percent of the credit card dataset observations are randomly partitioned into a labeled validation set and Pearson correlation between $g_{\text{mono}}$ inputs and the target, $X_{\text{default payment next month}}$, are calculated and stored. All features except for the target and the observation identifier, $X_{\text{ID}}$, are used as $g_{\text{mono}}$ inputs. The signs of the stored Pearson correlations are used to define the direction of the monotonicity constraints w.r.t. each input feature. (Features with small magnitude correlations or known non-monotonic behavior could also be left unconstrained.) Additional non-default hyperparameter settings used to train $g_{\text{mono}}$ are presented in Table \ref{tab:mono_gbm}. A maximum of 1000 iterations were used to train $g_{\text{mono}}$, with early stopping triggered after 50 iterations without validation AUC improvement. This configuration led to a final validation AUC of 0.781 after only 100 iterations. 
+Thirty percent of the credit card dataset observations are randomly partitioned into a labeled validation set and Pearson correlation between $g_{\text{mono}}$ inputs and the target, $Y_{\text{default payment next month}}$, are calculated and stored. All features except for the target and the observation identifier, $X_{\text{ID}}$, are used as $g_{\text{mono}}$ inputs. The signs of the stored Pearson correlations are used to define the direction of the monotonicity constraints w.r.t. each input feature. (Features with small magnitude correlations or known non-monotonic behavior could also be left unconstrained.) Additional non-default hyperparameter settings used to train $g_{\text{mono}}$ are presented in Table \ref{tab:mono_gbm}. A maximum of 1000 iterations were used to train $g_{\text{mono}}$, with early stopping triggered after 50 iterations without validation AUC improvement. This configuration led to a final validation AUC of 0.781 after only 100 iterations. 
 
 \begin{table}[ht]
 	\centering
