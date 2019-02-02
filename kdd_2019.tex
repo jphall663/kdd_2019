@@ -227,7 +227,7 @@ Decision trees can be represented as directed graphs where the relative position
 \begin{figure}
 	\begin{center}
 		\includegraphics[scale=0.4]{img/figure_2.eps}
-		\caption{Globally consistent Shapley summary plot for known signal-generating function $f(\mathbf{X}) = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ and for learned GBM response function $g_{\text{GBM}}$ in a validation dataset.}
+		\caption{Globally consistent Shapley summary plot for known signal-generating function $f(\mathbf{X}) \sim X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ and for learned GBM response function $g_{\text{GBM}}$ in a validation dataset.}
 		\label{fig:global_shapley}
 	\end{center}
 \end{figure}
@@ -245,7 +245,7 @@ $g_{\text{GBM}}$ is then trained: $ \mathbf{X}, \mathbf{f(X)} \xrightarrow{\math
 
 Figure \ref{fig:global_shapley} displays the local Shapley contribution values, which accurately measure a feature's impact on each $g_{\text{GBM}}(\mathbf{x})$ prediction, for observations in the validation data. Analyzing local Shapley values can be a more holistic and consistent feature importance metric than traditional single-value quantities \cite{shapley}. Features are ordered from top to bottom by their mean absolute Shapley value across observations in Figure \ref{fig:global_shapley}, and as expected, $X_{\text{num}9}$ and $X_{\text{num}8}$ tend to make the largest contributions to $g_{\text{GBM}}(\mathbf{X})$ followed by $X_{\text{num}4}$ and $X_{\text{num}1}$. Also as expected, noise features make minimal contributions to $g_{\text{GBM}}(\mathbf{X})$. Expected values are calculated by training $g_{\text{GBM}}$ with no validation set on $f$ with no error term and are available in materials listed in Section \ref{sec:software}. Shapley values are discussed in detail in Section \ref{sec:shap}. 
 
-Figure \ref{fig:dt_surrogate} is a directed graph representation of $h_{\text{tree}}$ that prominently displays the importance of input features $X_{\text{num}9}$ and $X_{\text{num}8}$ along with $X_{\text{num}4}$ and $X_{\text{num}1}$. Figure \ref{fig:dt_surrogate} also visually highlights the potential interactions between these inputs. URLs to the data and software used to generate Figures \ref{fig:global_shapley} and \ref{fig:dt_surrogate} are available in Section \ref{sec:software}.
+Figure \ref{fig:dt_surrogate} is a directed graph representation of $h_{\text{tree}}$ that prominently displays the importance of input features $X_{\text{num}9}$ and $X_{\text{num}8}$ along with $X_{\text{num}4}$ and $X_{\text{num}1}$. Figure \ref{fig:dt_surrogate} also highlights the potential interactions between these inputs. URLs to the data and software used to generate Figures \ref{fig:global_shapley} and \ref{fig:dt_surrogate} are available in Section \ref{sec:software}.
 
 \begin{figure}[htb]
 	\begin{center}
@@ -254,6 +254,8 @@ Figure \ref{fig:dt_surrogate} is a directed graph representation of $h_{\text{tr
 		\label{fig:dt_surrogate}
 	\end{center}
 \end{figure}
+
+\vspace{-15pt}
 
 \subsection{Recommendations}
 
@@ -352,7 +354,7 @@ Figure \ref{fig:lime} displays estimated local feature contribution values for t
 \begin{figure*}[htb]
 	\begin{center}
 		\includegraphics[scale=0.54]{img/figure_5.png}
-		\caption{Sparse, low-fidelity local feature contributions found using LIME at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ for known signal-generating function $f(\mathbf{X}) = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ in a validation dataset.}
+		\caption{Sparse, low-fidelity local feature contributions found using LIME at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ for known signal-generating function $f(\mathbf{X}) \sim X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ in a validation dataset.}
 		\label{fig:lime}
 	\end{center}
 \end{figure*}
@@ -420,7 +422,7 @@ Shapley values can be estimated in different ways. Tree SHAP is a specific imple
 \begin{figure*}[htb]
 	\begin{center}
 		\includegraphics[scale=0.55]{img/figure_6.png}
-		\caption{Complete, locally accurate feature contributions found using tree SHAP at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ and for known signal generating function $f(\mathbf{X}) = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ in a validation dataset.}
+		\caption{Complete, locally accurate feature contributions found using tree SHAP at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ and for known signal generating function $f(\mathbf{X}) \sim X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ in a validation dataset.}
 		\label{fig:shap}
 	\end{center}
 \end{figure*}
@@ -473,7 +475,7 @@ The following recommendations apply to several or all of the described explanato
 \section{Credit Card Data Use Case} \label{sec:use_case}
 %-------------------------------------------------------------------------------
 
-Some of the discussed explanatory techniques and recommendations will now be applied to a basic credit scoring problem using a monotonically constrained XGBoost binomial classifier and the UCI credit card dataset \cite{uci}. Referring back to Figure \ref{fig:learning_problem}, a training set $\mathbf{X}$ and associated labels $\mathbf{Y}$ will be used to train a GBM with decision tree base learners, selected based on domain knowledge from many other types of hypotheses models $\mathcal{H}$, using a monotonic splitting strategy with gradient boosting as the training algorithm $\mathcal{A}_{\text{mono}}$, to learn a final hypothesis model $g_{\text{mono}}$, that approximates the true signal generating function $f$ governing credit default in $\mathcal{X}$ and $\mathcal{Y}$ such that $g_{\text{mono}} \approx f$:
+Some of the discussed explanatory techniques and recommendations will now be applied to a basic credit scoring problem using a monotonically constrained XGBoost binomial classifier and the UCI credit card dataset \cite{uci}. Referring back to Figure \ref{fig:learning_problem}, a training set $\mathbf{X}$ and associated labels $Y$ will be used to train a GBM with decision tree base learners, selected based on domain knowledge from many other types of hypotheses models $\mathcal{H}$, using a monotonic splitting strategy with gradient boosting as the training algorithm $\mathcal{A}_{\text{mono}}$, to learn a final hypothesis model $g_{\text{mono}}$, that approximates the true signal generating function $f$ governing credit default in $\mathcal{X}$ and $\mathcal{Y}$ such that $g_{\text{mono}} \approx f$:
 
 \begin{equation}
 \label{eq:cc_training}
