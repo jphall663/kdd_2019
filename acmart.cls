@@ -1747,7 +1747,7 @@ Computing Machinery]
   \global\let\authors=\authors
   \global\let\shortauthors=\shortauthors
   \if@ACM@printacmref
-     \@mkbibcitation
+     %\@mkbibcitation
   \fi
   \hypersetup{%
     pdfauthor={\authors},
