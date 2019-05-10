@@ -5,8 +5,9 @@
 % For links
 \usepackage{hyperref}
 \usepackage[anythingbreaks]{breakurl}
-% to compile w/ correct hyperlinks: 
+% originally to compile w/ correct hyperlinks, needed: 
 % latex -> bibtex -> latex -> latex -> dvi2ps -> ps2pdf
+% now PDFLaTeX seems to work.
 
 % defining the \BibTeX command - from Oren Patashnik's original BibTeX documentation.
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08emT\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -62,7 +63,7 @@
 
 %
 % The "title" command has an optional parameter, allowing the author to define a "short title" to be used in page headers.
-\title[Art and Science of Explainable Machine Learning]{On the Art and Science of Explainable Machine Learning:\\Practical Discussion and a Use Case}
+\title[Explainable Machine Learning]{On the Art and Science of Explainable Machine Learning: \huge{Technicalities, Recommendations, and Responsibilities}}
 
 %
 % The "author" command and its associated commands are used to define the authors and their affiliations.
@@ -152,27 +153,26 @@ This text discusses several popular explanatory methods that go beyond the error
 \section{Introduction}
 %-------------------------------------------------------------------------------
 
-The subject of interpretable machine learning is both multifaceted and evolving. Others have previously defined key terms, put forward general motivations for the broader goal of better interpretability, and advocated for stronger scientific rigor for the burgeoning field \cite{been_kim1}, \cite{gilpin2018explaining}, \cite{guidotti2018survey}, \cite{lipton1}, \cite{weller2017challenges}. Following Doshi-Velez and Kim, this discussion uses ``the ability to explain or to present in understandable terms to a human,'' as the definition of \textit{interpretable}. ``When you can no longer keep asking why,'' will serve as the working definition for a \textit{good explanation} of model mechanisms or predictions \cite{gilpin2018explaining}. As in Figure~\ref{fig:learning_problem}, the presented explanatory methods help practitioners make random forests, GBMs, and other types of popular supervised machine learning models more interpretable by enabling post-hoc explanations that are suitable for:\\
+The subject of interpretable machine learning is both multifaceted and evolving. Others have previously defined key terms, put forward general motivations for the broader goal of better interpretability, and advocated for stronger scientific rigor for the burgeoning field \cite{been_kim1}, \cite{gilpin2018explaining}, \cite{guidotti2018survey}, \cite{lipton1}, \cite{weller2017challenges}. Following Doshi-Velez and Kim, this discussion uses ``the ability to explain or to present in understandable terms to a human,'' as the definition of \textit{interpretable}. ``When you can no longer keep asking why,'' will serve as the working definition for a \textit{good explanation} of model mechanisms or predictions \cite{gilpin2018explaining}. The presented explanatory methods help practitioners make interpretable models and other types of popular supervised machine learning models more understandable and facilitate:
 
 \begin{itemize}
-	\item Facilitating regulatory compliance.
-	\item Understanding or debugging model mechanisms and predictions.
-	\item Preventing or debugging accidental or intentional discrimination by models.
-	\item Preventing or debugging the malicious hacking or adversarial attack of models.
+	\item Human learning from machine learning.
+	\item Human appeal of automated model decisions. 
+	\item Regulatory compliance.
+	\item White-hat hacking and forensic analysis.
 \end{itemize}
 
-\begin{figure}[htb]
-
+\begin{figure}[hb]
 	\begin{center}
-		\includegraphics[scale=0.30]{img/figure_1.eps}
-		\caption{An augmented learning problem diagram in which several techniques create explanations for a credit scoring model. Adapted from Figure 1.2 of the open textbook \textit{Learning From Data} \cite{lfd}.}
-		\label{fig:learning_problem}
+		\includegraphics[scale=0.1]{img/figure_1.png}
+		\caption{A proposed human-centered workflow in which explanations, and many other techniques, are used to decrease disparate impact and increase interpretability and trust for automated machine learning decision-support systems.}
+		\label{fig:hc_ml}
 	\end{center}
 \end{figure}
 
-Some have criticized the sub-discipline of explanatory methods like those described herein \cite{please_stop}, but model explanations and the documentation they enable are an important and often mandatory aspect of predictive modeling in industries like financial services and healthcare\footnote{In the U.S., explanations and model documentation may be required under the Civil Rights Acts of 1964 and 1991, the Americans with Disabilities Act, the Genetic Information Nondiscrimination Act, the Health Insurance Portability and Accountability Act, the Equal Credit Opportunity Act, the Fair Credit Reporting Act, the Fair Housing Act, Federal Reserve SR 11-7, and the European Union (EU) Greater Data Privacy Regulation (GDPR) Article 22 \cite{ff_interpretability}.}. Moreover explanations can, and likely should, be used along with interpretable models and fairness assessments or bias remediation to further enhance transparency and accountability in high-stakes, life- or mission-critical machine learning workflows.   
+Some have criticized the sub-discipline of explanatory methods like those described herein, and like many technologies, machine learning explanations can be misused, particularly as faulty safeguards for harmful black-boxes and for malevolent purposes like hacking and ``fairwashing'' \cite{fair_washing}, \cite{security_of_ml}, \cite{please_stop}. This text does not condone such practices. It instead promotes informed, nuanced discussion and puts forward best practices to accompany the numerous and already-in-service open source and commercial software packages that have implemented explanatory techniques.\footnote{For a list of open source debugging, explanatory, fairness, and interpretable modeling packages, please see: \url{https://github.com/jphall663/awesome-machine-learning-interpretability}.) At this date, commercial implementations include atleast: DataRobot, H2O Driverless AI, SAS Visual Data Mining and Machine Learning, and Zest AutoML.} As highlighted in Figure~\ref{fig:hc_ml}, explanations can, and likely should, be used along with interpretable models, model debugging, fairness assessments or bias remediation to further enhance understanding and trust in high-stakes, life- or mission-critical machine learning workflows. Moreover, model explanations and the documentation they enable are often an important, mandatory, or embedded aspect of predictive modeling in industries like financial services\footnote{In the U.S., explanations and model documentation may be required under the Civil Rights Acts of 1964 and 1991, the Americans with Disabilities Act, the Genetic Information Nondiscrimination Act, the Health Insurance Portability and Accountability Act, the Equal Credit Opportunity Act, the Fair Credit Reporting Act, the Fair Housing Act, Federal Reserve SR 11-7, and the European Union (EU) Greater Data Privacy Regulation (GDPR) Article 22 \cite{ff_interpretability}.}.    
 
-The primary discussion of this text will focus on augmenting popular machine learning models with explanations for various purposes, including meeting regulatory requirements. The use case will then focus on blending explanations with a constrained, interpretable variant of a popular machine learning model. Discussions of the explanatory methods begin below by defining notation. Then Sections ~\ref{sec:surrogate_dt} -- ~\ref{sec:shap} describe explanatory methods and present usage recommendations for each method. Section ~\ref{sec:gen_rec} presents some general interpretability recommendations for practitioners. Section ~\ref{sec:use_case} applies some of the techniques and recommendations to the well-known UCI credit card dataset \cite{uci}. Finally, Section ~\ref{sec:software} highlights software resources that accompany this text. 
+The primary discussion of this text will focus on a simple and abstract example scenario that enables detailed description and technical recommendations for the explanatory techniques. A use case will then highlight combining explanations with a constrained, interpretable variant of a popular machine learning model. Discussions of the explanatory methods begin below by defining notation. Then Sections ~\ref{sec:surrogate_dt} -- ~\ref{sec:shap} outline explanatory methods and present usage recommendations. Section ~\ref{sec:gen_rec} presents some general interpretability recommendations for practitioners. Section ~\ref{sec:use_case} applies some of the techniques and recommendations to the well-known UCI credit card dataset \cite{uci}. Finally, Section ~\ref{sec:software} highlights software resources that accompany this text. 
 
 %-------------------------------------------------------------------------------
 \section{Notation} \label{sec:notation}
@@ -212,7 +212,7 @@ To facilitate descriptions of explanatory techniques, notation for input and out
 %-------------------------------------------------------------------------------
 
 
-The phrase \textit{surrogate model} is used here to refer to a simple model $h$ of a complex model $g$. This type of model is referred to by various other names, such as \textit{proxy} or \textit{shadow} models and the process of training surrogate models is sometimes referred to as \textit{model extraction} \cite{dt_surrogate1}, \cite{ff_interpretability},  \cite{dt_surrogate2}. 
+The phrase \textit{surrogate model} is used here to refer to a simple model $h$ of a complex model $g$. This type of model is referred to by various other names, such as \textit{proxy} or \textit{shadow} models and the process of training surrogate models is sometimes referred to as \textit{model extraction} \cite{dt_surrogate2}, \cite{dt_surrogate1}, \cite{ff_interpretability}. 
 
 \subsection{Description}
 
@@ -263,7 +263,7 @@ Figure \ref{fig:dt_surrogate} is a directed graph representation of $h_{\text{tr
 	
 	\item A shallow-depth $h_{\text{tree}}$ displays a global, low-fidelity (i.e. approximate), high-interpretability flow chart of important features and interactions in $g$. Because there are few theoretical guarantees that $h_{\text{tree}}$ truly represents $g$, always use error measures to assess the trustworthiness of $h_{\text{tree}}$, e.g. RMSE, MAPE, $R^2$.
 	
-	\item Prescribed methods for training $h_{\text{tree}}$ do exist \cite{dt_surrogate1} \cite{dt_surrogate2}. In practice, straightforward cross-validation approaches are often sufficient. Moreover, comparing cross-validated training error to traditional training error can give an indication of the stability of the single decision tree $h_{\text{tree}}$.
+	\item Prescribed methods for training $h_{\text{tree}}$ do exist \cite{dt_surrogate2}, \cite{dt_surrogate1}. In practice, straightforward cross-validation approaches are often sufficient. Moreover, comparing cross-validated training error to traditional training error can give an indication of the stability of the single decision tree $h_{\text{tree}}$.
 	
 	\item Hu et al. use local linear surrogate models, $h_{\text{GLM}}$, in $h_{\text{tree}}$ leaf nodes to increase overall surrogate model fidelity while also retaining a high degree of interpretability \cite{lime-sup}.
 	
@@ -381,11 +381,11 @@ Generally the LIMEs in Section \ref{sec:lime} would be considered to be sparse o
 		
 	\item Always investigate local $h_{GLM}$ intercept values. Generated LIME samples can contain large proportions of out-of-domain data that can lead to unrealistic intercept values. 
 		
-	\item To increase the fidelity of LIMEs, try LIME on discretized input features and on manually constructed interactions. Analyze $h_{\text{tree}}$ to construct potential interaction terms.
+	\item To increase the fidelity of LIMEs, try LIME on discretized input features and on manually constructed interactions. Analyze $h_{\text{tree}}$ to construct potential interaction terms, and use LIME as further confirmation of modeled $h_{\text{tree}}$ interactions.
  	
 	\item Use cross-validation to estimate standard deviations or even confidence intervals for local feature contribution values.
 	
-	\item Poor fit or inaccuracy of local linear models is itself informative, often indicating extreme nonlinearity or high-degree interactions. However, explanations from such local linear models are likely unacceptable and other types of local models with model-specific explanatory mechanisms, such as decision trees or neural networks \cite{wf_xnn}, can be used in these cases to generate high-fidelity explanations.
+	\item Poor fit or inaccuracy of local linear models is itself informative, often indicating extreme nonlinearity or high-degree interactions. However, explanations from such local linear models are likely unacceptable and other types of local models with model-specific explanatory mechanisms, such as decision trees or neural networks, can be used in these cases to generate high-fidelity explanations within the LIME framework \cite{lime}, \cite{wf_xnn}.
 	
 \end{itemize}
 
@@ -441,7 +441,7 @@ As expected at the 90\textsuperscript{th} percentile of $g_{\text{GBM}}(\mathbf{
 	
 	\item Because tree SHAP explanations are offsets from a global intercept, each $\phi_j$ can be interpreted as the difference in $g(\mathbf{x})$ and the average of $g(\mathbf{X})$ associated with some input feature $x_j$ \cite{molnar}. 
 		
-	\item Currently treeinterpreter may be inappropriate for some GBM models. Treeinterpreter is locally accurate for some decision tree and random forest models, but is known to be inconsistent like all other feature importance methods aside from Shapley approaches \cite{tree_shap}. In experiments available in the supplemental materials of this text, treeinterpreter is seen to be locally inaccurate for some XGBoost GBM models. 
+	\item Currently treeinterpreter may be inappropriate for some GBM models. Treeinterpreter is locally accurate for some decision tree and random forest models, but is known to be inconsistent like many other feature importance methods aside from Shapley approaches \cite{tree_shap}. In experiments available in the supplemental materials of this text, treeinterpreter is seen to be locally inaccurate for some XGBoost GBM models. 
 	
 \end{itemize}
 
@@ -453,9 +453,9 @@ The following recommendations apply to several or all of the described explanato
 
 \begin{itemize}	
 	
-	\item Less complex models are typically easier to explain and several types of machine learning models are directly interpretable, e.g. scalable Bayesian rule lists \cite{sbrl}. For maximum transparency in life- or mission-critical decision support scenarios, consider pairing interpretable white-box machine learning models with post-hoc explanatory techniques.\\
+	\item Less complex models are typically easier to explain and several types of machine learning models are directly interpretable, e.g. scalable Bayesian rule lists \cite{sbrl}. For maximum transparency in life- or mission-critical decision support systems, use interpretable white-box machine learning models with model debugging techniques, post-hoc explanatory techniques, and disparate impact analysis and remediation techniques. \\
 	
-	\item Monotonicity is often a desirable characteristic in interpretable models. (Of course it should not be enforced when a modeled relationship is known to be non-monotonic.) White-box, monotonically constrained \href{https://github.com/dmlc/xgboost}{XGBoost} models along with the explanatory techniques described in this text are a direct and open source way to train and explain an interpretable machine learning model. A monotonically constrained XGBoost GBM is trained and explained in Section \ref{sec:use_case}.\\
+	\item Monotonicity is often a desirable characteristic in interpretable models. (Of course it should not be enforced when a modeled relationship is known to be non-monotonic.) Monotonically constrained \href{https://github.com/dmlc/xgboost}{XGBoost} and \href{https://github.com/h2oai/h2o-3}{h2o-3} GBMs along with the explanatory techniques described in this text are a direct, non-disruptive, open source, and scalable way to train and explain an interpretable machine learning model. A monotonically constrained XGBoost GBM is trained and explained in Section \ref{sec:use_case}.\\
 	
 	\item Several explanatory techniques are usually required to create good explanations for any given complex model. Users should apply a combination global and local and low- and high-fidelity explanatory techniques to a machine learning model and seek consistent results across multiple explanatory techniques. \\
 	
@@ -465,7 +465,7 @@ The following recommendations apply to several or all of the described explanato
 	
 	\item Surrogate models can provide low-fidelity explanations for an entire machine learning pipeline in the original feature space if $g$ is defined to include feature extraction or feature engineering steps.\\
 	
-	\item The discussed explanatory techniques should engender a sense of understanding and trust in model mechanisms and predictions. Always consider conducting sensitivity, residual, and disparate impact analysis on your trained machine learning model to foster even greater understanding and trust in its behavior.\\
+	\item Understanding and trust are related, but not identical, goals. The discussed explanatory techniques should engender a solid sense of \textit{understanding} in model mechanisms and predictions. Always consider conducting additional model debugging and disparate impact analysis and remediation to foster even greater \textit{trust} in model behavior.\\
 	
 	\item Consider production deployment of explanatory methods carefully. Currently, the deployment of some open source software packages is not straightforward, especially for the generation of explanations on new data in real-time.\\
 	
@@ -557,7 +557,7 @@ Observed values of $\mathbf{x}^{(i)}$ are available in the supplementary materia
 
 \end{itemize} 
 
-Analysis for an operational, mission-critical machine learning model would likely involve further investigation of partial dependence and ICE plots and perhaps deeper analysis of $h_{\text{tree}}$ models following Hu et al \cite{lime-sup}. Analysis would also probably continue on to diagnostic, or \textit{model debugging}, and fairness techniques such as:
+Analysis for an operational, mission-critical machine learning model would likely involve further investigation of partial dependence and ICE plots and perhaps deeper analysis of $h_{\text{tree}}$ models following Hu et al \cite{lime-sup}. Analysis would also probably continue on to fairness and model debugging techniques such as:
 
 \begin{itemize}
 
@@ -572,11 +572,11 @@ Analysis for an operational, mission-critical machine learning model would likel
 
 \section{Conclusion}
 
-This text aspires to hasten adoption of explanatory techniques and also to bring interpretable models and model debugging and fairness methodologies to the attention of thoughtful practitioners. Future work will analyze and test combinations of interpretable models and explanatory, model debugging, and fairness techniques in the context of creating accurate and transparent systems for life- or mission-critical decision support applications. 
+This text aspires to hasten responsible adoption of explanatory techniques and also to bring interpretable models and model debugging and fairness methodologies to the attention of thoughtful practitioners. Future work will analyze and test combinations of interpretable models and explanatory, model debugging, and fairness techniques in the context of creating accurate and transparent systems for life- or mission-critical decision support applications. 
 
 \section{Acknowledgments}
 
-The author wishes to thank makers past and present at H2O.ai, and also thanks Mike Williams of Cloudera Fast Forward Labs for his review of this text.  
+The author wishes to thank makers past and present at H2O.ai for their tireless support, and especially Sri Ambati, Mark Chan, Doug Deloy, Navdeep Gill, and Wen Phan. The author also thanks Mike Williams of Cloudera Fast Forward Labs for his review of this text.  
 
 % The next two lines define the bibliography style to be used, and the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
