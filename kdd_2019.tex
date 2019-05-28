@@ -164,7 +164,7 @@ The subject of interpretable machine learning is both multifaceted and evolving.
 
 \begin{figure}[hb]
 	\begin{center}
-		\includegraphics[scale=0.11]{img/figure_1.png}
+		\includegraphics[scale=0.22]{img/figure_1_lo.png}
 		\caption{A proposed human-centered workflow in which explanations, and many other techniques, are used to decrease disparate impact and increase interpretability and trust for automated machine learning decision-support systems.}
 		\label{fig:hc_ml}
 	\end{center}
@@ -226,7 +226,7 @@ Decision trees can be represented as directed graphs where the relative position
 
 \begin{figure}
 	\begin{center}
-		\includegraphics[scale=0.4]{img/figure_2.eps}
+		\includegraphics[scale=0.4]{img/figure_2-eps-converted-to.pdf}
 		\caption{Globally consistent Shapley summary plot for known signal-generating function $f(\mathbf{X}) \sim X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ and for learned GBM response function $g_{\text{GBM}}$ in a validation dataset.}
 		\label{fig:global_shapley}
 	\end{center}
@@ -249,7 +249,7 @@ Figure \ref{fig:dt_surrogate} is a directed graph representation of $h_{\text{tr
 
 \begin{figure}[htb]
 	\begin{center}
-		\includegraphics[height=165pt, width=240pt]{img/figure_3.eps}
+		\includegraphics[height=165pt, width=240pt]{img/figure_3-eps-converted-to.pdf}
 		\caption{$h_{\text{tree}}$ for previously defined known signal-generating function $f$ and learned GBM response function $g_{\text{GBM}}$ in a validation dataset. An image of the entire $h_{\text{tree}}$ directed graph is available in the supplementary materials described in Section \ref{sec:software}.}
 		\label{fig:dt_surrogate}
 	\end{center}
@@ -282,7 +282,7 @@ Following Friedman et al. a single feature $X_j \in \mathbf{X}$ and its compleme
 
 \begin{figure}[htb]
 	\begin{center}
-		\includegraphics[scale=0.45]{img/figure_4-eps-converted-to.pdf}
+		\includegraphics[scale=0.45]{img/figure_4.png}
 		\caption{Partial dependence and ICE curves for previously defined known signal-generating function $f$,  learned GBM response function $g_{\text{GBM}}$, and important input feature $X_{\text{num}9}$ in a validation dataset.}
 		\label{fig:pdp_ice}
 	\end{center}
@@ -353,7 +353,7 @@ Figure \ref{fig:lime} displays estimated local feature contribution values for t
 
 \begin{figure*}[htb]
 	\begin{center}
-		\includegraphics[scale=0.54]{img/figure_5.png}
+		\includegraphics[scale=0.54]{img/figure_5_lo.png}
 		\caption{Sparse, low-fidelity local feature contributions found using LIME at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ for known signal-generating function $f(\mathbf{X}) \sim X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ in a validation dataset.}
 		\label{fig:lime}
 	\end{center}
@@ -421,7 +421,7 @@ Shapley values can be estimated in different ways. Tree SHAP is a specific imple
 
 \begin{figure*}[htb]
 	\begin{center}
-		\includegraphics[scale=0.55]{img/figure_6.png}
+		\includegraphics[scale=0.55]{img/figure_6_lo.png}
 		\caption{Complete, locally accurate feature contributions found using tree SHAP at three percentiles of $g_{\text{GBM}}(\mathbf{X})$ and for known signal generating function $f(\mathbf{X}) \sim X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2 + e$ in a validation dataset.}
 		\label{fig:shap}
 	\end{center}
@@ -510,7 +510,7 @@ Thirty percent of the credit card dataset observations are randomly partitioned 
 
 \begin{figure}[htb]
 	\begin{center}
-		\includegraphics[scale=0.4]{img/figure_7.eps}
+		\includegraphics[scale=0.4]{img/figure_7-eps-converted-to.pdf}
 		\caption{Globally consistent Shapley summary plot for $g_{\text{mono}}$ in a 30\% validation set randomly sampled from the UCI credit card dataset.}
 		\label{fig:cc_global_shapley}
 	\end{center}
@@ -520,7 +520,7 @@ The global feature importance of $g_{\text{mono}}$ evaluated in the validation s
 
 \begin{figure}[htb]
 	\begin{center}
-		\includegraphics[scale=0.45]{img/figure_8-eps-converted-to.pdf}
+		\includegraphics[scale=0.45]{img/figure_8.png}
 		\caption{Partial dependence and ICE curves for learned GBM response function $g_{\text{mono}}$ and important input feature $X_{\text{PAY\_0}}$ in a 30\% validation set randomly sampled from the UCI credit card dataset.}
 		\label{fig:cc_pdp_ice}
 	\end{center}
@@ -530,7 +530,7 @@ Partial dependence and ICE for $g_{\text{mono}}$ and the important input feature
 
 \begin{figure}[htb]
 	\begin{center}
-		\includegraphics[height=105pt, width=240pt]{img/figure_9.eps}
+		\includegraphics[height=105pt, width=240pt]{img/figure_9-eps-converted-to.pdf}
 		\caption{$h_{\text{tree}}$ for $g_{\text{mono}}$ in a 30\% validation set randomly sampled from the UCI credit card dataset. An image of a depth-five $h_{\text{tree}}$ directed graph is available in the supplementary materials described in Section \ref{sec:software}.}
 		\label{fig:cc_dt_surrogate}
 	\end{center}
@@ -540,7 +540,7 @@ To continue explaining $g_{\text{mono}}$, a simple depth-three $h_{\text{tree}}$
  
 \begin{figure*}[htb]
 	\begin{center}
-		\includegraphics[scale=0.55]{img/figure_10_h.png}
+		\includegraphics[scale=0.55]{img/figure_10_h_lo.png}
 		\caption{Complete, locally accurate feature contributions found using tree SHAP at three percentiles of $g_{\text{mono}}(\mathbf{X})$ in a 30\% validation set randomly sampled from the UCI credit card dataset.}
 		\label{fig:cc_shap}
 	\end{center}
