@@ -10,3 +10,4 @@ img/Thumbs.db
 *.synctex.gz
 *.toc
 *-blx.bib
+*.DS_Store
