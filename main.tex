@@ -1,3 +1,7 @@
+% TODO
+% confirm max. points lost method
+
+
 \documentclass[11pt,
 			   %10pt, 
                %hyperref={colorlinks},
@@ -46,8 +50,8 @@
 \patchcmd{\epigraph}{\@epitext{#1}}{\itshape\@epitext{#1}}{}{}
 \makeatother
 
-\author{\copyright\hspace{1pt}Patrick Hall\footnote{\tiny{This material is shared under a \href{https://creativecommons.org/licenses/by/4.0/deed.ast}{CC By 4.0 license} which allows for editing and redistribution, even for commercial purposes. However, any derivative work should attribute the author and H2O.ai.}}}
-\title{Guidelines for Responsible Use of Explainable Machine Learning}
+\author{\copyright\hspace{1pt}Patrick Hall\thanks{\tiny{This material is shared under a \href{https://creativecommons.org/licenses/by/4.0/deed.ast}{CC By 4.0 license} which allows for editing and redistribution, even for commercial purposes. However, any derivative work should attribute the author and H2O.ai.}}}
+\title{Proposed Guidelines for Responsible Use\\of Explainable Machine Learning}
 \logo{\includegraphics[height=8pt]{img/h2o_logo.png}}
 \institute{\href{https://www.h2o.ai}{H\textsubscript{2}O.ai}}
 \date{\today}
@@ -65,17 +69,17 @@
 		
 	\end{frame}
 
+\renewcommand*{\thefootnote}{\arabic{footnote}}
+
 %-------------------------------------------------------------------------------
 	\section{Introduction}
 %-------------------------------------------------------------------------------
 
-%-------------------------------------------------------------------------------
-	\subsection{What?}
-%-------------------------------------------------------------------------------
+	\subsection*{} % just for progress indicator
 
 	\begin{frame}[t]
 		
-		\frametitle{What is explainable machine learning (ML)?}
+		\frametitle{What is an Explanation in Machine Learning (ML)?}
 		
 		\epigraph{“A collection of visual and/or interactive artifacts that provide a user with sufficient description of the model behavior to accurately perform tasks like evaluation, trusting, predicting, or improving the model.”}{--- \textup{Sameer Singh}, UCI}		
 		
@@ -94,16 +98,14 @@
 	
 	\begin{frame}
 	
-		\frametitle{What is explainable ML?}
+		\frametitle{What do \textit{\textbf{I}} Mean by Explainable ML?}
 
-		What do \textit{\textbf{I}} mean by explainable ML?\\
-		\vspace{5pt}
 		Mostly post-hoc techniques used to enhance \textit{\textbf{understanding}} of trained model mechansims and predictions, e.g. ...
 		\begin{itemize}
 			\item \textbf{Direct measures of global and local feature importance}: 
 			\begin{itemize}\footnotesize
 				\item Gradient-based feature attribution (\citet{grad_attr})
-				\item Shapley values (\citet{shapley})
+				\item Shapley values (\citet{shapley}, \citet{shapley1953value})
 			\end{itemize}
 			\item \textbf{Global and local surrogate models}: 
 			\begin{itemize}\footnotesize
@@ -113,62 +115,61 @@
 			\end{itemize}
 			\item \textbf{Global and local visualizations of trained model predictions}: 
 			\begin{itemize}\footnotesize
-				\item Accumulated local effect (ALE) (\citet{ale_plot}) 
+				\item Accumulated local effects (ALE) (\citet{ale_plot}) 
 				\item Partial dependence (\citet{esl})
 				\item Individual conditional expectation (ICE) (\citet{ice_plots})
 			\end{itemize}
 		\end{itemize}\normalsize
 			
 	\end{frame}
-	
-%-------------------------------------------------------------------------------
-	\subsection{Why?}
-%-------------------------------------------------------------------------------
-
-% ask for contributions to awesome-machine-learning-interpretability
 
 	\begin{frame}
 	
-		\frametitle{Why explainable ML?}
-		\vspace{10pt}
+		\frametitle{Why Explainable ML?}
+		
 		Responsible Use of Explainable ML can enable:
-		\begin{itemize}\footnotesize
+		\begin{itemize}
 			\item Human learning from machine learning
 			\item Human appeal of automated decisions
-			\item Regulatory compliance
-			\item White-hat/red-team hacking
+			\item Regulatory compliance\footnote{\tiny{In the U.S., interpretable models, explanations, and the model documentation they enable may be required under the Civil Rights Acts of 1964 and 1991, the Americans with Disabilities Act, the Genetic Information Nondiscrimination Act, the Health Insurance Portability and Accountability Act, the Equal Credit Opportunity Act, the Fair Credit Reporting Act, the Fair Housing Act, Federal Reserve SR 11-7, and the European Union (EU) Greater Data Privacy Regulation (GDPR) Article 22 \cite{ff_interpretability}.}}
+			\item White-hat hacking and security audits of ML models
 		\end{itemize}
-		\vspace{5pt}
+		\vspace{10pt}
+		Even logistic regression is often ``explained'',  or post-processed, for credit scoring, e.g. max. points lost method and adverse action notices.
+
+	\end{frame}
+
+	\begin{frame}[t]
+	
+		\frametitle{Why Propose Guidelines?}		
+
 		Misuse and Abuse of Explainable ML can enable:
 		\begin{itemize}\footnotesize
 			\item Model and data stealing (\citet{model_stealing}, \citet{membership_inference}, \citet{shokri2019privacy})
 			\item False justification for harmful black-boxes, e.g. ``fairwashing'' (\citet{fair_washing}, \citet{please_stop})
 		\end{itemize}
-		\normalsize
+		\vspace{5pt}		
+		Explainable ML is already in-use: 
+		\begin{itemize}\footnotesize
+		\item Numerous open source\footnote{\tiny{\textcolor{magenta}{Please contribute:} \url{https://github.com/jphall663/awesome-machine-learning-interpretability}.}} and commercial packages\footnote{\tiny{For instance Datarobot, H2O Driverless AI, SAS Visual Data Mining and Machine Learning, Zest AutoML.}} are available today.
+		\item Gradient-based feature attribution, partial dependence, and surrogate models are used for model validation in financial services today.\footnote{\tiny{See: \url{https://ww2.amstat.org/meetings/jsm/2019/onlineprogram/AbstractDetails.cfm?abstractid=303053}.}}\textsuperscript{,}\footnote{\tiny{See: Working paper: ``SR 11-7, Validation and Machine Learning Models'', Tony Yang, CFA, CPA, FRM. KPMG USA. \label{fn:yang}}} 
+		\end{itemize}
+		\vspace{5pt}	
+		Regulatory guidance is not agreed upon yet.\footnote{\tiny{See: \url{https://www.americanbanker.com/news/regulators-must-issue-ai-guidance-or-fdic-will-mcwilliams}.}}
+		\normalsize	
 		
 	\end{frame}
-	
-% regulation?
-% but even logistic regression is often "explained"
-	
-%-------------------------------------------------------------------------------
-	\subsection{Guidelines}
-%-------------------------------------------------------------------------------	
 
 	\begin{frame}
 	
 		\frametitle{Proposed Guidelines for Responsible Use}
 		
-		Explainable ML is already in-use: numerous open source\footnote{\tiny{See: \url{https://github.com/jphall663/awesome-machine-learning-interpretability}}} and commercial packages\footnote{\tiny{For instance  Datarobot, H2O Driverless AI, SAS Visual Data Mining and Machine Learning, Zest AutoML}} are available today.\\
-		\vspace{5pt}
-		Best-practices are needed to prevent misuse and abuse. So, four basic guidelines are proposed here:
-		\vspace{5pt}
-		\begin{itemize}
-			\item Use explainable ML to enhance understanding.
-			\item Learn how explainable ML is used for nefarious purposes.
-			\item Augment surrogate models with direct explanations.
-			\item Use highly transparent mechanisms for high stakes applications.
-		\end{itemize}
+		\begin{enumerate}\Large
+			\item \textbf{Use explainable ML to enhance understanding.}
+			\item \textbf{Learn how explainable ML is used for nefarious purposes.}
+			\item \textbf{Augment surrogate models with direct explanations.}
+			\item \textbf{Use highly transparent mechanisms for high stakes applications (\citet{please_stop}).}
+		\end{enumerate}
 		
 	\end{frame}
 
@@ -176,15 +177,21 @@
 	\section{Understanding and Trust}
 %-------------------------------------------------------------------------------
 
+	\subsection*{} % just for progress indicator
+
 	\begin{frame}
 	
-		\frametitle{Use Explainable ML to Enhance Understanding.}
+		\frametitle{\textbf{Guideline 1}: Use Explainable ML to Enhance Understanding}
 		
-		Explanations enhance understanding directly, and increase trust as a side-effect.\\
+		\Large
+		
+		Explanations enhance understanding \textbf{directly}, and increase trust as a \textbf{side-effect}.\\
 		\vspace{10pt}
-		Models can be understood and not trusted, and trusted but not understood.\\
+		Models can be \textbf{understood and not trusted}, and \textbf{trusted but not understood}.\\
 		\vspace{10pt}
-		Explanations alone are neither necessary nor sufficient for trust.
+		Explanations \textbf{alone} are neither necessary nor sufficient for trust.\\
+		\vspace{10pt}
+		Good explanations \textbf{enable human appeal} of model decisions.
 		
 	\end{frame}
 
@@ -216,8 +223,8 @@
 	\begin{frame}
 	
 		\frametitle{Trust Without Understanding}
-		
-		Years before reliable explanation techniques were widely acknowledged and available, black-box predictive models, such as autoencoder and MLP neural networks, were used for fraud detection in the financial services industry \cite{gopinathan1998fraud}. When these models performed well, they were trusted.\footnote{For example: \url{https://www.sas.com/en_ph/customers/hsbc.html}, \url{https://www.kdnuggets.com/2011/03/sas-patent-fraud-detection.html}.} However, they were not explainable or well-understood by contemporary standards.  
+		\Large
+		Years before reliable explanation techniques were widely acknowledged and available, black-box predictive models, such as autoencoder and MLP neural networks, were used for fraud detection in the financial services industry (\citet{gopinathan1998fraud}). When these models performed well, they were trusted.\footnote{\tiny{For example: \url{https://www.sas.com/en_ph/customers/hsbc.html}, \url{https://www.kdnuggets.com/2011/03/sas-patent-fraud-detection.html}}.} However, they were not explainable or well-understood by contemporary standards.  
 
 	\end{frame}
 
@@ -226,20 +233,21 @@
 	\section{The Dark Side}
 %-------------------------------------------------------------------------------
 
+	\subsection*{} % just for progress indicator
+
 	\begin{frame}
 	
-		\frametitle{Learn How Explainable ML is Used for Nefarious Purposes}	
-		
-		When unintentionally misused, explainable ML can act as a faulty-safeguard for a potentially harmful black-box.\\
+		\frametitle{\textbf{Guideline 2}: Learn How Explainable ML is Used for Nefarious Purposes}	
+		\Large
+		When unintentionally misused, explainable ML can act as a faulty-safeguard for potentially harmful black-boxes.\\
 		\vspace{10pt}
 		When intentionally abused, explainable ML can be used for: 
 		\begin{itemize}
-			\item Hacking of data, models, or other intellectual property.
+			\item Stealing data, models, or other intellectual property.
 			\item \textit{Fairwashing}, to mask the sociological biases of a discriminatory black-box.
 		\end{itemize}
 	
 	\end{frame}
-
 
 	\begin{frame}
 	
@@ -257,21 +265,26 @@
 	
 	\begin{frame}
 	
-		\frametitle{White-hat Attacks}
-		
+		\frametitle{\large{\textbf{Corollary 2.1}: White-hat Attacks Can Crack Potentially Harmful Black-boxes}}
+		\large
 		The flip-side of the dark side is community oversight of black-boxes.\\
 		\vspace{10pt}
-		Recent high profile analyses of commercial black-boxes, \href{https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing}{Propublica and COMPAS} and \href{https://medium.com/@Joy.Buolamwini/response-racial-and-gender-bias-in-amazon-rekognition-commercial-ai-system-for-analyzing-faces-a289222eeced}{Gendershades and Rekognition}, can be viewed as white-hat attacks (model stealing, adversarial examples) on proprietary black-boxes.\footnote{This presentation makes no claim on the quality of the analysis in Angwin et al. (2016), which has been criticized, but is simply stating that such cracking is possible \cite{angwin16,}, \cite{flores2016false}.} 
+		Recent high profile analyses of commercial black-boxes, e.g. ... 
+		\begin{itemize}		
+			\item \href{https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing}{Propublica and COMPAS} (\citet{angwin16})\footnote{\tiny{This presentation makes no claim on the quality of the analysis in Angwin et al. (2016), which has been criticized, but is simply stating that such cracking is possible \cite{angwin16,}, \cite{flores2016false}}.}
+			\item \href{https://medium.com/@Joy.Buolamwini/response-racial-and-gender-bias-in-amazon-rekognition-commercial-ai-system-for-analyzing-faces-a289222eeced}{Gendershades and Rekognition} (\citet{gender_shades}, \citet{raji2019actionable})
+		\end{itemize}
+		... \textbf{might} be viewed as white-hat attacks on proprietary black-boxes (respectively, model stealing and adversarial examples).
 
 	\end{frame}
 	
 	\begin{frame}[label={not_frontline}]
 	
-		\frametitle{Explanation \textbf{\textit{is Not}} a Front Line Fairness Tool}
-		
+		\frametitle{\textbf{Corollary 2.2}: Explanation \textbf{\textit{is Not}} a Front Line Fairness Tool}
+		\large
 		Use fairness tools, e.g. ...
 		\vspace{5pt}
-		\begin{itemize}\footnotesize
+		\begin{itemize}\normalsize
 			\item Disparate impact testing (\citet{feldman2015certifying})
 			\item Reweighing (\citet{kamiran2012data})
 			\item Reject option based classification (\citet{kamiran2012decision})
@@ -289,27 +302,29 @@
 	\section{Surrogates}
 %-------------------------------------------------------------------------------
 
+	\subsection*{} % just for progress indicator
+
 	\begin{frame}
 	
 		\frametitle{Surrogate Models}
-		
-		Models of models, or surrogate models, can be helpful explanatory or modeling tools, but they are usually approximate, low-fidelity explainers.\\
+		\large
+		Models of models (i.e. surrogate models, compressed models, extracted models) can be helpful explanatory or modeling tools, but they are also usually approximate, low-fidelity explainers.\\
 		\vspace{10pt}
-		Much work in explainable ML has been directed toward improving the fidelity and usefulness of surrogate models (e.g., \citet{dt_surrogate2}, \citet{viper}, \citet{dt_surrogate1}, \citet{lime-sup}, \citet{wf_xnn})\\
+		Much work in explainable ML has been directed toward improving the fidelity and usefulness of surrogate models (e.g., \citet{dt_surrogate2}, \citet{viper}, \citet{dt_surrogate1}, \citet{lime-sup}, \citet{anchors}, \citet{wf_xnn})\\
 		\vspace{10pt}
-		\textbf{\textit{Many explainable ML techniques have nothing to do with surrogate models!}}
+		\textbf{\textit{(BUT many explainable ML techniques have nothing to do with surrogate models!)}}
 		
 	\end{frame}
 	
 	\begin{frame}[t]
 	
-		\frametitle{Augment Surrogate Models with Direct Explanations}	
+		\frametitle{\textbf{Guideline 3}: Augment Surrogate Models with Direct Explanations}	
 	
 		\begin{columns}
 				
 			\column{0.55\linewidth}
 			\centering			
-			\includegraphics[height=0.6\linewidth, width=.95\linewidth]{img/figure_3-eps-converted-to.pdf}\\
+			\includegraphics[height=0.6\linewidth, width=.95\linewidth]{img/figure_3-eps-converted-to.png}\\
   			\tiny{Na\"ive $h_{\text{tree}}$, \textit{a surrogate model}, forms an approximate overall flowchart for the explained model, $g_{\text{GBM}}$.}
 
 			\hspace{5pt}
@@ -319,13 +334,13 @@
   			
   		\end{columns}
 
-	\scriptsize{$h_{\text{tree}}$ displays known interactions in $f = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2$ for $\sim -0.923 < X_{\text{num9}} <  \sim 1.04$. Modeling of the known interaction between $X_{\text{num9}}$ and $X_{\text{num8}}$ in $f$ by $g_{\text{GBM}}$ is confirmed by the divergence of partial dependence and ICE curves for $\sim -1 < X_{\text{num9}} <  \sim 1$.}
+	\scriptsize{$h_{\text{tree}}$ displays known interactions in $f = X_{\text{num}1} * X_{\text{num}4} + |X_{\text{num}8}| * X_{\text{num}9}^2$ for $\sim -0.923 < X_{\text{num9}} <  \sim 1.04$. Modeling of the known interaction between $X_{\text{num9}}$ and $X_{\text{num8}}$ in $f$ by $g_{\text{GBM}}$ is also highlighted by the divergence of partial dependence and ICE curves for $\sim -1 < X_{\text{num9}} <  \sim 1$.}
 
 	\end{frame}
 
 	\begin{frame}[t, label={lime}]
 	
-		\frametitle{Augment LIME with Direct Explanations}
+		\frametitle{\textbf{Corollary 3.1}: Augment LIME with Direct Explanations}
 	
 		\begin{columns}
 				
@@ -347,19 +362,19 @@
 					\hline
 					\texttt{PAY\_2 == 3} & $0.0065$ \\
 					\hline
-					\texttt{PAY\_5 == 2} & $-0.0006$ \\
-					\hline
 					\texttt{PAY\_6 == 2} & $0.0036$ \\
-					\hline				
+					\hline
+					\texttt{PAY\_5 == 2} & $-0.0006$ \\
+					\hline					
+					\texttt{PAY\_AMT1} & $4.8062\mathrm{e}{-07}$ \\
+					\hline										
 					\texttt{BILL\_AMT1} & $3.4339\mathrm{e}{-08}$ \\
 					\hline
-					\texttt{PAY\_AMT1} & $4.8062\mathrm{e}{-07}$ \\
-					\hline	
 					\texttt{PAY\_AMT3} & $-5.867\mathrm{e}{-07}$ \\	
 					\hline	
 				\end{tabular}	
 			\end{table}	
-  			\tiny{Coefficients for a local linear interpretable model, $h_{\text{GLM}}$, with an intercept of 0.77 and an $R^2$ of 0.73., trained between the original inputs and predictions of $g_{\text{tree}}$ for a segment of the UCI credit card dataset with late most recent repayment statuses, $\mathbf{X}_{PAY \_ 0 > 1}$}.
+  			\tiny{Coefficients for a local linear interpretable model, $h_{\text{GLM}}$, with an intercept of 0.77 and an $R^2$ of 0.73, trained between the original inputs and predictions of $g_{\text{tree}}$ for a segment of the UCI credit card dataset with late most recent repayment statuses, $\mathbf{X}_{PAY \_ 0 > 1}$}.
   		\end{columns}
 
 	\scriptsize{Because $h_{GLM}$ is relatively well-fit and has a logical intercept, it can be used along with Shapley values to reason about the modeled average behavior for risky customers and to differentiate the behavior of any one specific risky customer from their peers under the model.}
@@ -371,42 +386,42 @@
 	\section{High Stakes Applications}
 %-------------------------------------------------------------------------------
 
-% regulation?
-% but even logistic regression is often "explained"
+	\subsection*{} % just for progress indicator
 
 	\begin{frame}
 	
-		\frametitle{Use Highly Transparent Mechanisms for High Stakes Applications}	
-		
-		\centering{\includegraphics[scale=0.08]{img/blueprint.png}}\\
+		\frametitle{\normalsize{\textbf{Guideline 4}: Use Highly Transparent Mechanisms for High Stakes Applications}}
+		\vspace{2pt}
+		\centering{\includegraphics[scale=0.09]{img/blueprint.png}}\\
 		\vspace{5pt}
-		\scriptsize{A diagram of a proposed low risk ML workflow in which explanations (highlighted in \textcolor{magenta}{fuschia}) are used along with interpretable or white-box models, disparate impact analysis and remediation techniques, and other review and appeal mechanisms to create a fair, accountable, and transparent ML system.}
+		\scriptsize{A diagram of a proposed workflow in which explanations (highlighted in \textcolor{magenta}{fuschia}) are used along with interpretable models, disparate impact analysis and remediation techniques, and other review and appeal mechanisms to create a fair, accountable, and transparent ML system.}
 	
 	\end{frame}
 
 	\begin{frame}
-	
-		\frametitle{Interpretable Models}
+
+% XNN
+
+		\frametitle{\large{\textbf{Corollary 4.1}: Use Interpretable Models for High Stakes Applications (\citet{please_stop})}}
 		
-		Many types of novel interpretable models are freely available today, e.g. 
+		Many types of accurate and interpretable models are available today, e.g. ...
 		
 		\begin{itemize}
 			\item \href{https://github.com/microsoft/interpret}{Explainable boosting machine (EBM)}
 			\item Monotonic GBM in \href{https://github.com/h2oai/h2o-3}{h2o} or \href{https://github.com/dmlc/xgboost}{XGBoost}
 			\item \href{https://cran.r-project.org/web/packages/pre/index.html}{RuleFit} (\citet{rulefit})
 			\item \href{https://github.com/ustunb/slim-python}{Super-sparse linear integer model} (SLIM)	(\citet{slim})
+			\item Explainable Neural Network (XNN) (\citet{wf_xnn})
 			\item \href{https://cran.r-project.org/web/packages/sbrl/index.html}{Scalable Bayesian rule list} (\citet{sbrl})
-
-		
 		\end{itemize}	
+
+		... use them for human-centered or other high stakes ML applications.
 	
 	\end{frame}	
 
-% shades of interpretability
-
 	\begin{frame}[label={dt}]
 	
-		\frametitle{Explanations and Interpretable Models are Not Mutually Exclusive}	
+		\frametitle{\large{\textbf{Corollary 4.2}: Explanations and Interpretable Models are Not Mutually Exclusive}}
 		
 		\begin{columns}
 				
@@ -433,7 +448,7 @@
 	
 	\begin{frame}
 		
-		\frametitle{An Ode to the Shapley Value}		
+		\frametitle{\textbf{Interlude}: An Ode to the Shapley Value}		
 		
 		\begin{enumerate}\footnotesize
 				
@@ -442,8 +457,8 @@
 			\item \textbf{Shapley regression}: \citefield{lipovetsky2001analysis}{title}, \citefield{lipovetsky2001analysis}{year}
 			\item \textbf{First reference in ML?} \citefield{keinan2004fair}{title}, \citefield{keinan2004fair}{year} 	
 			\item \textbf{Into the ML research mainstream, i.e. JMLR}: \citefield{kononenko2010efficient}{title}, \citefield{kononenko2010efficient}{year}
-			\item \textbf{Into the real-world data mining workflow ... \textit{finally}}: \citefield{tree_shap}{title}, \citefield{tree_shap}{year}. \footnote{\tiny{See \href{https://github.com/h2oai/h2o-3}{h2o}, \href{https://github.com/microsoft/LightGBM}{LightGBM}, or \href{https://github.com/dmlc/xgboost}{XGBoost} for implementation.}}
-			\item \textbf{Unification}: \citefield{shapley}{title}, \citefield{shapley}{year}. \footnote{\tiny{See \href{https://github.com/slundberg/shap}{shap} for implementation.}}
+			\item \textbf{Into the real-world data mining workflow ... \textit{finally}}: \citefield{tree_shap}{title}, \citefield{tree_shap}{year}.\footnote{\tiny{See \href{https://github.com/h2oai/h2o-3}{h2o}, \href{https://github.com/microsoft/LightGBM}{LightGBM}, or \href{https://github.com/dmlc/xgboost}{XGBoost} for implementation.}}
+			\item \textbf{Unification}: \citefield{shapley}{title}, \citefield{shapley}{year}.\footnote{\tiny{See \href{https://github.com/slundberg/shap}{shap} for implementation.}}
 				
 		\end{enumerate}
 			
@@ -451,7 +466,7 @@
 	
 	\begin{frame}[t]
 	
-		\frametitle{Explanation and Fairness Techniques are Not Mutually Exclusive}
+		\frametitle{\large{\textbf{Corollary 4.3}: Explanation and Fairness Techniques are Not Mutually Exclusive}}
 		
 		\begin{table}
 			\centering
@@ -468,15 +483,27 @@
 				\hline	
 			\end{tabular}
 		\end{table}
-		\tiny{Basic group disparity metrics across different marital statuses for monotonically constrained GBM model, $g_{\text{mono}}$, trained on the UCI credit card dataset.	 See slide \ref{no_trust} for global Shapley feature importance for $g_{\text{mono}}$ and slide \ref{not_frontline} for an important note about explanation as fairness techniques.}\\
+		\tiny{Basic group disparity metrics across different marital statuses for monotonically constrained GBM model, $g_{\text{mono}}$, trained on the UCI credit card dataset.	 See slide \ref{no_trust} for global Shapley feature importance for $g_{\text{mono}}$ and slide \ref{not_frontline} for an important note about explanation and fairness techniques.}\\
 		\vspace{5pt}\footnotesize
-		Many fairness techniques are freely available today: \href{https://github.com/dssg/aequitas}{aequitas}, \href{https://github.com/IBM/AIF360}{AIF360}, \href{https://github.com/LASER-UMASS/Themis}{Themis}, \href{https://github.com/cosmicBboy/themis-ml}{themis-ml}.\\
+		Many fairness toolkits are available today: \href{https://github.com/dssg/aequitas}{aequitas}, \href{https://github.com/IBM/AIF360}{AIF360}, \href{https://github.com/LASER-UMASS/Themis}{Themis}, \href{https://github.com/cosmicBboy/themis-ml}{themis-ml}.\\
 		\vspace{5pt}
-		Traditional disparate impact testing tools are best-suited for constrained models because average group metrics cannot reliable identify local instances of discrimination that can occur when using complex, unconstrained models.   
+		Traditional disparate impact testing tools are best-suited for constrained models because average group metrics cannot reliably identify local instances of discrimination that can occur when using complex, unconstrained models.   
 	
 	\end{frame}
-			
-%Acknowledgements: Sameer, Pramit, Cristoph, Premyslaw, MLI team, Sri, Leland 		
+
+%-------------------------------------------------------------------------------
+		
+\section{Acknowledgements} 
+
+	\begin{frame}
+	
+		\frametitle{Acknowledgments}
+		
+		Some of the best engineers, researchers, and business leaders in the world!\\
+		\vspace{10pt}
+		Christoph Molnar, Doug Deloy, Josephine Wang, Kerry O'Shea, Ladislav Ligart, Leland Wilkinson, Mark Chan, Martin Dvorak, Mateusz Dymczyk, Megan and Michal Kurka, Mike Williams, Navdeep Gill, Pramit Choudhary, Przemyslaw Biecek, Sameer Singh, Sri Ambati, Wen Phan, Zac Taschdjian\footnote{\tiny{My world anyway ... and in alphabetical order by first name.}}
+
+	\end{frame}	
 			
 %-------------------------------------------------------------------------------
 % References
@@ -488,15 +515,15 @@
 		\frametitle{References}	
 		
 			This presentation:\\
-			\tiny{\url{https://www.github.com/jphall663kdd_2019}}\\
+			\scriptsize{\url{https://www.github.com/jphall663/kdd_2019}}\\
 			\vspace{10pt}
 			\normalsize Code examples for this presentation:\\
-			\tiny{\url{https://www.github.com/jphall663/interpretable_machine_learning_with_python}}\\
-			\noindent\tiny{\url{https://www.github.com/jphall663/responsible_xai}}\\
+			\scriptsize{\url{https://www.github.com/jphall663/interpretable_machine_learning_with_python}}\\
+			\noindent\scriptsize{\url{https://www.github.com/jphall663/responsible_xai}}\\
 			\vspace{10pt}
 			\normalsize Associated texts:\\
-			\tiny{\url{https://arxiv.org/pdf/1810.02909.pdf}}\\
-			\noindent\tiny{\url{https://arxiv.org/pdf/1906.03533.pdf}}
+			\scriptsize{\url{https://arxiv.org/pdf/1810.02909.pdf}}\\
+			\noindent\scriptsize{\url{https://arxiv.org/pdf/1906.03533.pdf}}
 								
 		\framebreak		
 		
