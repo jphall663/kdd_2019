@@ -152,7 +152,7 @@
 		Explainable ML is already in-use: 
 		\begin{itemize}\footnotesize
 		\item Numerous open source\footnote{\tiny{\textcolor{magenta}{Please contribute:} \url{https://github.com/jphall663/awesome-machine-learning-interpretability}.}} and commercial packages\footnote{\tiny{For instance Datarobot, H2O Driverless AI, SAS Visual Data Mining and Machine Learning, Zest AutoML.}} are available today.
-		\item Gradient-based feature attribution, partial dependence, and surrogate models are used for model validation in financial services today.\footnote{\tiny{See: \url{https://ww2.amstat.org/meetings/jsm/2019/onlineprogram/AbstractDetails.cfm?abstractid=303053}.}}\textsuperscript{,}\footnote{\tiny{See: Working paper: ``SR 11-7, Validation and Machine Learning Models'', Tony Yang, CFA, CPA, FRM. KPMG USA. \label{fn:yang}}} 
+		\item At least gradient-based feature attribution, partial dependence, and surrogate models are used for model validation in financial services today.\footnote{\tiny{See: \url{https://ww2.amstat.org/meetings/jsm/2019/onlineprogram/AbstractDetails.cfm?abstractid=303053}.}}\textsuperscript{,}\footnote{\tiny{See: Working paper: ``SR 11-7, Validation and Machine Learning Models'', Tony Yang, CFA, CPA, FRM. KPMG USA. \label{fn:yang}}} 
 		\end{itemize}
 		\vspace{5pt}	
 		Regulatory guidance is not agreed upon yet.\footnote{\tiny{See: \url{https://www.americanbanker.com/news/regulators-must-issue-ai-guidance-or-fdic-will-mcwilliams}.}}
@@ -239,7 +239,7 @@
 	
 		\frametitle{\textbf{Guideline 2}: Learn How Explainable ML is Used for Nefarious Purposes}	
 		\Large
-		When unintentionally misused, explainable ML can act as a faulty-safeguard for potentially harmful black-boxes.\\
+		When unintentionally misused, explainable ML can act as a faulty safeguard for potentially harmful black-boxes.\\
 		\vspace{10pt}
 		When intentionally abused, explainable ML can be used for: 
 		\begin{itemize}
@@ -274,7 +274,7 @@
 			\item \href{https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing}{Propublica and COMPAS} (\citet{angwin16})\footnote{\tiny{This presentation makes no claim on the quality of the analysis in Angwin et al. (2016), which has been criticized, but is simply stating that such cracking is possible \cite{angwin16,}, \cite{flores2016false}}.}
 			\item \href{https://medium.com/@Joy.Buolamwini/response-racial-and-gender-bias-in-amazon-rekognition-commercial-ai-system-for-analyzing-faces-a289222eeced}{Gendershades and Rekognition} (\citet{gender_shades}, \citet{raji2019actionable})
 		\end{itemize}
-		... \textbf{might} be viewed as white-hat attacks on proprietary black-boxes (respectively, model stealing and adversarial examples).
+		... \textbf{could} be characterized as white-hat attacks on proprietary black-boxes (respectively, model stealing and adversarial examples).
 
 	\end{frame}
 	
@@ -308,7 +308,7 @@
 	
 		\frametitle{Surrogate Models}
 		\large
-		Models of models (i.e. surrogate models, compressed models, extracted models) can be helpful explanatory or modeling tools, but they are also usually approximate, low-fidelity explainers.\\
+		Models of models (i.e. surrogate models, compressed models, extracted models) can be helpful explanatory or modeling tools, but they can also be approximate, low-fidelity explainers.\\
 		\vspace{10pt}
 		Much work in explainable ML has been directed toward improving the fidelity and usefulness of surrogate models (e.g., \citet{dt_surrogate2}, \citet{viper}, \citet{dt_surrogate1}, \citet{lime-sup}, \citet{anchors}, \citet{wf_xnn})\\
 		\vspace{10pt}
@@ -347,7 +347,7 @@
 			\column{0.5\linewidth}
 			\centering			
 			\includegraphics[height=0.6\linewidth, width=.95\linewidth]{img/shap.png}\\
-  			\tiny{Locally-accurate Shapley contributions for a high risk individual's probability of default as predicted by a simple decision tree model, $g_{\text{tree}}$. See slide~\ref{dt} for a directed graph representation of $g_{\text{tree}}$}.
+  			\tiny{Locally accurate and globally consistent Shapley contributions for a high risk individual's probability of default as predicted by a simple decision tree model, $g_{\text{tree}}$. See slide~\ref{dt} for a directed graph representation of $g_{\text{tree}}$}.
 
 			\hspace{5pt}
 			\column{0.5\linewidth}
@@ -404,18 +404,18 @@
 
 		\frametitle{\large{\textbf{Corollary 4.1}: Use Interpretable Models for High Stakes Applications (\citet{please_stop})}}
 		
-		Many types of accurate and interpretable models are available today, e.g. ...
+		In addition to penalized GLM, decision trees, and conventional rule-based models, many other types of accurate and interpretable models are available today, e.g. ...
 		
 		\begin{itemize}
 			\item \href{https://github.com/microsoft/interpret}{Explainable boosting machine (EBM)}
 			\item Monotonic GBM in \href{https://github.com/h2oai/h2o-3}{h2o} or \href{https://github.com/dmlc/xgboost}{XGBoost}
 			\item \href{https://cran.r-project.org/web/packages/pre/index.html}{RuleFit} (\citet{rulefit})
 			\item \href{https://github.com/ustunb/slim-python}{Super-sparse linear integer model} (SLIM)	(\citet{slim})
-			\item Explainable Neural Network (XNN) (\citet{wf_xnn})
+			\item Explainable neural network (XNN) (\citet{wf_xnn})
 			\item \href{https://cran.r-project.org/web/packages/sbrl/index.html}{Scalable Bayesian rule list} (\citet{sbrl})
 		\end{itemize}	
 
-		... use them for human-centered or other high stakes ML applications.
+		... use them for human-centered or other high stakes ML applications.\footnote{\tiny{There are shades of interpretability in models. Interpretability is probably not a binary, on-off quality. For instance see Figure 3: \url{https://arxiv.org/pdf/1904.03867.pdf} \cite{molnar2019quantifying}.}}
 	
 	\end{frame}	
 
@@ -429,7 +429,7 @@
 			\centering		
 			\includegraphics[height=.45\linewidth, width=1.15\linewidth]{img/dt.png}\\
 			\vspace{5pt}
-  			\tiny{Simple decision tree, $g_{\text{tree}}$, trained on the UCI credit card data to predict default with validation AUC of 0.74. The decision policy for a high risk individual is highlighted in red.}
+  			\tiny{Simple decision tree, $g_{\text{tree}}$, trained on the UCI credit card data to predict default with validation AUC of 0.74. The decision policy for a high risk individuals is highlighted in \textcolor{magenta}{fuschia}.}
 
 			\hspace{50pt}
 			\column{.4\textwidth}
@@ -437,7 +437,7 @@
 			\vspace{2pt}\\
   			\includegraphics[height=.5\linewidth, width=.8\linewidth]{img/shap.png}\\
   			\vspace{5pt}
-  			\tiny{Locally-accurate Shapley contributions for the highlighted individual's probability of default. See slide \ref{lime} for LIMEs for the high risk customers in $g_{\text{tree}}$.}
+  			\tiny{Locally accurate and globally consistent Shapley contributions for the highlighted individuals' probability of default. See slide \ref{lime} for LIMEs for the high risk customers in $g_{\text{tree}}$.}
 
 		\end{columns}
 		\vspace{10pt}
@@ -452,13 +452,13 @@
 		
 		\begin{enumerate}\footnotesize
 				
-			\item \textbf{In the beginning}: \citefield{shapley1953value}{title}, \citefield{shapley1953value}{year}
-			\item \textbf{Nobel-worthy contributions}: \citefield{shapley1988shapley}{title}, \citefield{shapley1988shapley}{year}
-			\item \textbf{Shapley regression}: \citefield{lipovetsky2001analysis}{title}, \citefield{lipovetsky2001analysis}{year}
-			\item \textbf{First reference in ML?} \citefield{keinan2004fair}{title}, \citefield{keinan2004fair}{year} 	
-			\item \textbf{Into the ML research mainstream, i.e. JMLR}: \citefield{kononenko2010efficient}{title}, \citefield{kononenko2010efficient}{year}
-			\item \textbf{Into the real-world data mining workflow ... \textit{finally}}: \citefield{tree_shap}{title}, \citefield{tree_shap}{year}.\footnote{\tiny{See \href{https://github.com/h2oai/h2o-3}{h2o}, \href{https://github.com/microsoft/LightGBM}{LightGBM}, or \href{https://github.com/dmlc/xgboost}{XGBoost} for implementation.}}
-			\item \textbf{Unification}: \citefield{shapley}{title}, \citefield{shapley}{year}.\footnote{\tiny{See \href{https://github.com/slundberg/shap}{shap} for implementation.}}
+			\item \textbf{In the beginning}: \citefield{shapley1953value}{title}, \citefield{shapley1953value}{year} \cite{shapley1953value}
+			\item \textbf{Nobel-worthy contributions}: \citefield{shapley1988shapley}{title}, \citefield{shapley1988shapley}{year} \cite{shapley1988shapley}
+			\item \textbf{Shapley regression}: \citefield{lipovetsky2001analysis}{title}, \citefield{lipovetsky2001analysis}{year} \cite{lipovetsky2001analysis}
+			\item \textbf{First reference in ML?} \citefield{keinan2004fair}{title}, \citefield{keinan2004fair}{year} \cite{keinan2004fair}
+			\item \textbf{Into the ML research mainstream, i.e. JMLR}: \citefield{kononenko2010efficient}{title}, \citefield{kononenko2010efficient}{year} \cite{kononenko2010efficient}
+			\item \textbf{Into the real-world data mining workflow ... \textit{finally}}: \citefield{tree_shap}{title}, \citefield{tree_shap}{year}\footnote{\tiny{See \href{https://github.com/h2oai/h2o-3}{h2o}, \href{https://github.com/microsoft/LightGBM}{LightGBM}, or \href{https://github.com/dmlc/xgboost}{XGBoost} for implementation.}} \cite{tree_shap} 
+			\item \textbf{Unification}: \citefield{shapley}{title}, \citefield{shapley}{year}\footnote{\tiny{See \href{https://github.com/slundberg/shap}{shap} for implementation.}} \cite{shapley}
 				
 		\end{enumerate}
 			
